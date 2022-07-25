@@ -3,25 +3,13 @@
 namespace App\Filters;
 
 use App\Beans\AccesoBean;
-use App\Models\UsuarioModel;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class AccesoFilter implements FilterInterface {
   /**
-   * Do whatever processing this filter needs to do.
-   * By default it should not return anything during
-   * normal execution. However, when an abnormal state
-   * is found, it should return an instance of
-   * CodeIgniter\HTTP\Response. If it does, script
-   * execution will end and that Response will be
-   * sent back to the client, allowing for error pages,
-   * redirects, etc.
-   *
    * @param RequestInterface $request
    * @param array|null       $arguments
    *
@@ -29,9 +17,11 @@ class AccesoFilter implements FilterInterface {
    */
   public function before(RequestInterface $request, $arguments = null) {
     try {
-      $token = $request->getHeaderLine("token");
+      $headers = apache_request_headers();
+      $token = $headers["token"];
       $payload = AccesoBean::decodificarToken($token);
       $usuario = AccesoBean::validarToken($payload);
+      $_REQUEST["usuario"] = $usuario;
     } catch (Exception $exc) {
       $response = service("response");
       $response->setContentType("application/json");
@@ -42,11 +32,6 @@ class AccesoFilter implements FilterInterface {
   }
 
   /**
-   * Allows After filters to inspect and modify the response
-   * object as needed. This method does not allow any way
-   * to stop execution of other after filters, short of
-   * throwing an Exception or Error.
-   *
    * @param RequestInterface  $request
    * @param ResponseInterface $response
    * @param array|null        $arguments

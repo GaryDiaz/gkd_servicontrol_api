@@ -5,14 +5,14 @@ namespace App\Beans;
 use App\Entities\ClienteEntity;
 
 class EmpleadoBean {
-  const JURIDICA = ["V", "J", "E", "P", "G"];
+  const PREFIJOS_RIF = ["V", "E", "P", "J", "G"];
   const ESTATUS = ["Inactivo", "Activo"];
-  const PERSONALIDAD = [
+  const DESCRIPCION_PREFIJOS = [
     "V" => "Natural de Venezuela",
-    "J" => "Persona Jurídica",
     "E" => "Extrangero con residencia en Venezuela",
     "P" => "Agente Registrado con Pasaporte",
-    "G" => "Ente Gubernamental",
+    "J" => "Persona Jurídica",
+    "G" => "Órgano o Ente Gubernamental",
   ];
 
   /**
@@ -22,7 +22,7 @@ class EmpleadoBean {
   /**
    * @var string
    */
-  public $rif;
+  public $numeroRif;
   /**
    * @var string
    */
@@ -30,11 +30,11 @@ class EmpleadoBean {
   /**
    * @var string
    */
-  public $personalidad;
+  public $juridica;
   /**
    * @var string
    */
-  public $nombreCompania;
+  public $razonSocial;
   /**
    * @var string
    */
@@ -74,8 +74,6 @@ class EmpleadoBean {
 
   public function __construct(ClienteEntity $cliente = null) {
     if ($cliente) {
-      $this->setId($cliente->id);
-      $this->setRif($cliente->rif);
     }
   }
 
@@ -98,20 +96,20 @@ class EmpleadoBean {
   }
 
   /**
-   * Get the value of rif
+   * Get the value of numeroRif
    * @return string
    */
-  public function getRif() {
-    return $this->rif;
+  public function getNumeroRif() {
+    return $this->numeroRif;
   }
 
   /**
-   * Set the value of rif
-   * @param string $rif
+   * Set the value of numeroRif
+   * @param string $numeroRif
    * @return self
    */
-  public function setRif(string $rif) {
-    $this->rif = $rif;
+  public function setNumeroRif(string $numeroRif) {
+    $this->numeroRif = $numeroRif;
     return $this;
   }
 
@@ -130,25 +128,28 @@ class EmpleadoBean {
    */
   public function setPrefijoRif(string $prefijoRif) {
     $this->prefijoRif = $prefijoRif;
-    $this->personalidad = self::PERSONALIDAD[$this->prefijoRif];
     return $this;
   }
 
-  /**
-   * Get the value of personalidad
-   * @return string
-   */
-  public function getPersonalidad() {
-    return $this->personalidad;
+  public function getRif(): string {
+    return $this->prefijoRif . $this->numeroRif;
   }
 
   /**
-   * Set the value of personalidad
-   * @param string $personalidad
+   * Get the value of jurica
+   * @return string
+   */
+  public function getJuridica() {
+    return $this->juridica;
+  }
+
+  /**
+   * Set the value of juridica
+   * @param string $juridica
    * @return self
    */
-  public function setPersonalidad(string $personalidad) {
-    $this->personalidad = $personalidad;
+  public function setJuridica(string $juridica) {
+    $this->juridica = $juridica;
     return $this;
   }
 
@@ -332,22 +333,5 @@ class EmpleadoBean {
   public function setEstatus(string $estatus) {
     $this->estatus = $estatus;
     return $this;
-  }
-
-  public function getJuridica(): int {
-    for ($i = 0; $i < count(self::JURIDICA); $i++) {
-      if (self::JURIDICA[$i] === $this->getPrefijoRif) {
-        return $i;
-      }
-    }
-    return 0;
-  }
-
-  public function setJuridica(int $juridica) {
-    if ($juridica < count(self::JURIDICA)) {
-      $this->setPrefijoRif(self::JURIDICA[$juridica]);
-    } else {
-      $this->setPrefijoRif(self::JURIDICA[0]);
-    }
   }
 }

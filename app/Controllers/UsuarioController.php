@@ -104,14 +104,13 @@ class UsuarioController extends ResourceController {
     }
 
     try {
-      $token = $this->request->getHeaderLine("token");
-      $payload = AccesoBean::decodificarToken($token);
-      $usuario = $this->model->findByNick($payload->nick);
+      $usuario = $_REQUEST["usuario"];
       $claveActualCript = $this->model->encriptarClave($claveActual);
       if ($usuario["clave"] !== $claveActualCript) {
         return $this->failUnauthorized("Clave actual no coincide");
       }
-      if (!$this->model->update($usuario["idUsuario"], ["clave" => $claveActualCript])) {
+      $claveNuevaCript = $this->model->encriptarClave($claveNueva);
+      if (!$this->model->update($usuario["idUsuario"], ["clave" => $claveNuevaCript])) {
         return $this->fail("No se pudo actualizar la clave");
       }
       return $this->respond([
