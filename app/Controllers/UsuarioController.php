@@ -85,7 +85,9 @@ class UsuarioController extends ResourceController {
       return $this->failUnauthorized("Su clave y nick no coinciden");
     }
     if (!$usuario = $this->model->autorizar($usuario["nick"])) {
-      return $this->failUnauthorized("Fallo el proceso de autorización, intetente más tarde");
+      return $this->failUnauthorized(
+        "Fallo el proceso de autorización, intetente más tarde"
+      );
     }
     $token = AccesoBean::getInstanceDataArray($usuario)->generarToken();
     return $this->respond([

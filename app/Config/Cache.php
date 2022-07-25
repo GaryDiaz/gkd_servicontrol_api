@@ -10,8 +10,7 @@ use CodeIgniter\Cache\Handlers\RedisHandler;
 use CodeIgniter\Cache\Handlers\WincacheHandler;
 use CodeIgniter\Config\BaseConfig;
 
-class Cache extends BaseConfig
-{
+class Cache extends BaseConfig {
     /**
      * --------------------------------------------------------------------------
      * Primary Handler

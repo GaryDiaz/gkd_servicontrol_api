@@ -4,7 +4,7 @@ namespace App\Beans;
 
 use App\Entities\ClienteEntity;
 
-class EmpleadoBean {
+class ClienteBean {
   const PREFIJOS_RIF = ["V", "E", "P", "J", "G"];
   const ESTATUS = ["Inactivo", "Activo"];
   const DESCRIPCION_PREFIJOS = [
@@ -28,7 +28,7 @@ class EmpleadoBean {
    */
   public $prefijoRif;
   /**
-   * @var string
+   * @var bool
    */
   public $juridica;
   /**
@@ -74,6 +74,7 @@ class EmpleadoBean {
 
   public function __construct(ClienteEntity $cliente = null) {
     if ($cliente) {
+      $this->setClienteEntity($cliente);
     }
   }
 
@@ -135,9 +136,15 @@ class EmpleadoBean {
     return $this->prefijoRif . $this->numeroRif;
   }
 
+  public function setRif(string $rif) {
+    $this->prefijoRif = substr($rif, 0, 1);
+    $this->numeroRif = substr($rif, 1, 10);
+    $this->juridica = ($this->prefijoRif === "J" || $this->prefijo === "G");
+  }
+
   /**
    * Get the value of jurica
-   * @return string
+   * @return bool
    */
   public function getJuridica() {
     return $this->juridica;
@@ -145,29 +152,29 @@ class EmpleadoBean {
 
   /**
    * Set the value of juridica
-   * @param string $juridica
+   * @param bool $juridica
    * @return self
    */
-  public function setJuridica(string $juridica) {
+  public function setJuridica(bool $juridica) {
     $this->juridica = $juridica;
     return $this;
   }
 
   /**
-   * Get the value of nombreCompania
+   * Get the value of razonSocial
    * @return string
    */
-  public function getNombreCompania() {
-    return $this->nombreCompania;
+  public function getRazonSocial() {
+    return $this->razonSocial;
   }
 
   /**
-   * Set the value of nombreCompania
-   * @param string $nombreCompania
+   * Set the value of razonSocial
+   * @param string $razonSocial
    * @return self
    */
-  public function setNombreCompania(string $nombreCompania) {
-    $this->nombreCompania = $nombreCompania;
+  public function setRazonSocial(string $razonSocial) {
+    $this->razonSocial = $razonSocial;
     return $this;
   }
 
@@ -333,5 +340,124 @@ class EmpleadoBean {
   public function setEstatus(string $estatus) {
     $this->estatus = $estatus;
     return $this;
+  }
+
+  /**
+   * Get the value of estatus
+   * @return  int
+   */
+  public function getEstatusInt() {
+    for ($i = 0; $i < count(self::ESTATUS); $i++) {
+      if ($this->estatus === self::ESTATUS[$i]) {
+        return $i;
+      }
+    }
+    return 0;
+  }
+
+  /**
+   * Set the value of estatus
+   * @param  int  $estatus
+   * @return  self
+   */
+  public function setEstatusInt(int $estatus) {
+    $this->estatus = $estatus === 0 ? self::ESTATUS[0] : self::ESTATUS[1];
+    return $this;
+  }
+
+  public function getClienteEntity(): ClienteEntity {
+    $ce = new ClienteEntity(array(
+      "idCliente" => $this->getId(),
+      "rif" => $this->getRif(),
+      "juridica" => $this->getJuridica() ? 1 : 0,
+      "razonSocial" => $this->getRazonSocial(),
+      "nombreContacto" => $this->getNombreContacto(),
+      "cargoContacto" => $this->getCargoContacto(),
+      "direccion" => $this->getDireccion(),
+      "direccionAnexo" => $this->getDireccionAnexo(),
+      "puntoReferencia" => $this->getPuntoReferencia(),
+      "telefono" => $this->getTelefono(),
+      "otroTelefono" => $this->getOtroTelefono(),
+      "email" => $this->getEmail(),
+      "estatus" => $this->getEstatusInt(),
+    ));
+    return $ce;
+  }
+
+  public function setClienteEntity(ClienteEntity $cliente) {
+    $this->setId($cliente->id);
+    $this->setrif($cliente->rif);
+    $this->setRazonSocial($cliente->getRazonSocial);
+    $this->setNombreContacto($cliente->getNombreContacto);
+    $this->setCargoContacto($cliente->cargoContacto);
+    $this->setDireccion($cliente->direccion);
+    $this->setDireccionAnexo($cliente->direccionAnexo);
+    $this->setPuntoReferencia($cliente->puntoReferencia);
+    $this->setTelefono($cliente->telefono);
+    $this->setOtroTelefono($cliente->otroTelefono);
+    $this->setEmail($cliente->email);
+    $this->setEstatusInt($cliente->estatus);
+  }
+
+  public static function arrayEntitiesToBeans(array $clientes): array {
+    $beans = [];
+    for ($i = 0; $i < count($clientes); $i++) {
+      $ce = $clientes[$i];
+      $cb = new ClienteBean($ce);
+      $beans[$i] = $cb;
+    }
+    return $beans;
+  }
+
+  public static function extraerDatosActualizables(array $form): array {
+    $data = [];
+    $numeroRif = array_key_exists("numeroRif", $form) ? $form["numeroRif"] : null;
+    $prefijoRif = array_key_exists("prefijoRif", $form) ? $form["prefijoRif"] : null;
+    $rif = ($numeroRif && $prefijoRif) ? $numeroRif . $prefijoRif : null;
+    $xj = array_key_exists("juridica", $form) ? $form["juridica"] : null;
+    $juridica = $xj ? 1 : 0;
+    $razonSocial = array_key_exists("razonSocial", $form) ? $form["razonSocial"] : null;
+    $nombreContacto = array_key_exists("nombreContacto", $form) ? $form["nombreContacto"] : null;
+    $cargoContacto = array_key_exists("cargoContacto", $form) ? $form["cargoContacto"] : null;
+    $direccion = array_key_exists("direccion", $form) ? $form["direccion"] : null;
+    $direccionAnexo = array_key_exists("direccionAnexo", $form) ? $form["direccionAnexo"] : null;
+    $puntoReferencia = array_key_exists("puntoReferencia", $form) ? $form["puntoReferencia"] : null;
+    $telefono = array_key_exists("telefono", $form) ? $form["telefono"] : null;
+    $otroTelefono = array_key_exists("otroTelefono", $form) ? $form["otroTelefono"] : null;
+    $email = array_key_exists("email", $form) ? $form["email"] : null;
+    if ($rif !== null) {
+      $data["rif"] = $rif;
+    }
+    if ($juridica !== null) {
+      $data["juridica"] = $juridica;
+    }
+    if ($razonSocial !== null) {
+      $data["razonSocial"] = $razonSocial;
+    }
+    if ($nombreContacto !== null) {
+      $data["nombreContacto"] = $nombreContacto;
+    }
+    if ($cargoContacto !== null) {
+      $data["cargoContacto"] = $cargoContacto;
+    }
+    if ($direccion !== null) {
+      $data["direccion"] = $direccion;
+    }
+    if ($direccionAnexo !== null) {
+      $data["direccionAnexo"] = $direccionAnexo;
+    }
+    if ($puntoReferencia !== null) {
+      $data["puntoReferencia"] = $puntoReferencia;
+    }
+    if ($telefono !== null) {
+      $data["telefono"] = $telefono;
+    }
+    if ($otroTelefono !== null) {
+      $data["otroTelefono"] = $otroTelefono;
+    }
+    if ($email !== null) {
+      $data["email"] = $email;
+    }
+    return $data;
   }
 }

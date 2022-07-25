@@ -25,7 +25,6 @@ class AccesoBean extends UsuarioBean {
 
   /**
    * Get the value of apiKey
-   *
    * @return  string
    */
   public function getApiKey() {
@@ -34,33 +33,26 @@ class AccesoBean extends UsuarioBean {
 
   /**
    * Set the value of apiKey
-   *
    * @param  string  $apiKey
-   *
    * @return  self
    */
   public function setApiKey(string $apiKey) {
     $this->apiKey = $apiKey;
-
     return $this;
   }
 
   /**
    * Set the value of clave
-   *
    * @param  string  $clave
-   *
    * @return  self
    */
   public function setClave(string $clave) {
     $this->clave = $clave;
-
     return $this;
   }
 
   /**
    * Get the value of ultimoAcceso
-   *
    * @return  string
    */
   public function getUltimoAcceso() {
@@ -69,14 +61,11 @@ class AccesoBean extends UsuarioBean {
 
   /**
    * Set the value of ultimoAcceso
-   *
    * @param  string  $ultimoAcceso
-   *
    * @return  self
    */
   public function setUltimoAcceso(string $ultimoAcceso) {
     $this->ultimoAcceso = $ultimoAcceso;
-
     return $this;
   }
 

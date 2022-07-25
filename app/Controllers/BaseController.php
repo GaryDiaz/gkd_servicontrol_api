@@ -19,11 +19,9 @@ use Psr\Log\LoggerInterface;
  *
  * For security be sure to declare any new methods as protected or private.
  */
-abstract class BaseController extends Controller
-{
+abstract class BaseController extends Controller {
     /**
      * Instance of the main Request object.
-     *
      * @var CLIRequest|IncomingRequest
      */
     protected $request;
@@ -32,7 +30,6 @@ abstract class BaseController extends Controller
      * An array of helpers to be loaded automatically upon
      * class instantiation. These helpers will be available
      * to all other controllers that extend BaseController.
-     *
      * @var array
      */
     protected $helpers = [];
@@ -40,8 +37,7 @@ abstract class BaseController extends Controller
     /**
      * Constructor.
      */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-    {
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger) {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 

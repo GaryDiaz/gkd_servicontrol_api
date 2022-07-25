@@ -12,7 +12,6 @@ class AccesoFilter implements FilterInterface {
   /**
    * @param RequestInterface $request
    * @param array|null       $arguments
-   *
    * @return mixed
    */
   public function before(RequestInterface $request, $arguments = null) {
@@ -35,10 +34,12 @@ class AccesoFilter implements FilterInterface {
    * @param RequestInterface  $request
    * @param ResponseInterface $response
    * @param array|null        $arguments
-   *
    * @return mixed
    */
-  public function after(RequestInterface $request, ResponseInterface $response, $arguments = null) {
-    //
+  public function after(
+    RequestInterface $request,
+    ResponseInterface $response,
+    $arguments = null
+  ) {
   }
 }

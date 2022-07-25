@@ -263,15 +263,15 @@ class EmpleadoBean {
   }
 
   public function setEmpleadoEntity(EmpleadoEntity $empleado) {
-    $this->id = $empleado->id;
-    $this->cedula = $empleado->cedula;
-    $this->nombre = $empleado->nombre;
-    $this->apellido = $empleado->apellido;
-    $this->cargo = $empleado->cargo;
-    $this->telefonoPrincipal = $empleado->telefonoPrincipal;
-    $this->telefono2 = $empleado->telefono2;
-    $this->telefono3 = $empleado->telefono3;
-    $this->estatus = $empleado->estatus;
+    $this->setId($empleado->id);
+    $this->setCedula($empleado->cedula);
+    $this->setNombre($empleado->nombre);
+    $this->setApellido($empleado->apellido);
+    $this->setCargo($empleado->cargo);
+    $this->setTelefonoPrincipal($empleado->telefonoPrincipal);
+    $this->setTelefono2($empleado->telefono2);
+    $this->setTelefono3($empleado->telefono3);
+    $this->setEstatusInt($empleado->estatus);
   }
 
   public static function arrayEntitiesToBeans(array $empleados): array {
@@ -289,7 +289,9 @@ class EmpleadoBean {
     $nombre = array_key_exists("nombre", $form) ? $form["nombre"] : null;
     $apellido = array_key_exists("apellido", $form) ? $form["apellido"] : null;
     $cargo = array_key_exists("cargo", $form) ? $form["cargo"] : null;
-    $telefonoPrincipal = array_key_exists("telefonoPrincipal", $form) ? $form["telefonoPrincipal"] : null;
+    $telefonoPrincipal = array_key_exists("telefonoPrincipal", $form)
+      ? $form["telefonoPrincipal"]
+      : null;
     $telefono2 = array_key_exists("telefono2", $form) ? $form["telefono2"] : null;
     $telefono3 = array_key_exists("telefono3", $form) ? $form["telefono3"] : null;
     if ($nombre !== null) {
