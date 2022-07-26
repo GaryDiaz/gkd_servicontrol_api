@@ -24,7 +24,7 @@ class EmpleadoController extends ResourceController {
         "data" => new EmpleadoBean($empleado)
       ]);
     }
-    return $this->failNotFound("No se encontró ningún empleado con id {$id}");
+    return $this->failNotFound("No se encontró ningún empleado con id $id");
   }
 
   public function create() {
@@ -74,7 +74,7 @@ class EmpleadoController extends ResourceController {
     $this->model->delete($id);
 
     return $this->respondDeleted([
-      "message" => "El empleado con id ({$id}) ha sido eliminado satisfactoriamente"
+      "message" => "El empleado con id ($id) ha sido eliminado satisfactoriamente"
     ]);
   }
 }

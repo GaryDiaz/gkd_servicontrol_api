@@ -386,7 +386,7 @@ class ClienteBean {
 
   public function setClienteEntity(ClienteEntity $cliente) {
     $this->setId($cliente->id);
-    $this->setrif($cliente->rif);
+    $this->setRif($cliente->rif);
     $this->setRazonSocial($cliente->getRazonSocial);
     $this->setNombreContacto($cliente->getNombreContacto);
     $this->setCargoContacto($cliente->cargoContacto);
@@ -459,5 +459,22 @@ class ClienteBean {
       $data["email"] = $email;
     }
     return $data;
+  }
+
+  public static function getInstanceCreateForm(array $form): ClienteBean {
+    $cb = new ClienteBean();
+    $cb->setId(0);
+    $cb->setRif($form["rif"]);
+    $cb->setRazonSocial($form["razonSocial"]);
+    $cb->setNombreContacto($form["nombreContacto"]);
+    $cb->setCargoContacto($form["cargoContacto"]);
+    $cb->setDireccion($form["direccion"]);
+    $cb->setDireccionAnexo($form["direccionAnexo"]);
+    $cb->setPuntoReferencia($form["puntoReferencia"]);
+    $cb->setTelefono($form["telefono"]);
+    $cb->setOtroTelefono($form["otroTelefono"]);
+    $cb->setEmail($form["email"]);
+    $cb->setEstatusInt(1);
+    return $cb;
   }
 }
