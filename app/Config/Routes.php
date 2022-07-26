@@ -23,24 +23,17 @@ $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
-// The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
-// where controller filters or CSRF protection are bypassed.
-// If you don't want to define all routes, please use the Auto Routing (Improved).
-// Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
-//$routes->setAutoRoute(false);
 
-/*
- * --------------------------------------------------------------------
- * Route Definitions
- * --------------------------------------------------------------------
+$routes->get('/', 'Home::index');
+$routes->post("/login", "UsuarioController::login");
+
+/**
+ * Rutas protegidas por el filtro AccesoFilter
  */
-
-// We get a performance increase by specifying the default
-// route since we don't have to scan directories.
-
 $routes->group("", ['filter' => 'accesoFilter'], static function ($routes) {
   $routes->post("/usuario", "UsuarioController::create");
   $routes->get("/usuarios", "UsuarioController::index");
+  $routes->get("/usuario/(:segment)", "UsuarioController::show/$1");
   $routes->put("/usuario/(:segment)", "UsuarioController::update/$1");
   $routes->delete("/usuario/(:segment)", "UsuarioController::update/$1");
   $routes->post("/cambiarclave", "UsuarioController::cambiarClave");
@@ -50,20 +43,13 @@ $routes->group("", ['filter' => 'accesoFilter'], static function ($routes) {
   $routes->get("/empleado/(:segment)", "EmpleadoController::show/$1");
   $routes->put("/empleado/(:segment)", "EmpleadoController::update/$1");
   $routes->delete("/empleado/(:segment)", "EmpleadoController::delete/$1");
+
+  $routes->post("/cliente", "EmpleadoController::create");
+  $routes->get("/clientes", "EmpleadoController::index");
+  $routes->get("/cliente/(:segment)", "EmpleadoController::show/$1");
+  $routes->put("/cliente/(:segment)", "EmpleadoController::update/$1");
+  $routes->delete("/cliente/(:segment)", "EmpleadoController::delete/$1");
 });
-
-$routes->get('/', 'Home::index');
-$routes->get('/holamundo', 'HolaMundo::index', ['filter' => 'accesoFilter']);
-//$routes->get('/login', 'Acceso::index');
-
-/**
- * --------------------------------------------------------------------
- *  Rutas de Usuario y Control de Acceso
- * --------------------------------------------------------------------
- */
-
-$routes->post("/login", "UsuarioController::login");
-$routes->get("/usuario/(:segment)", "UsuarioController::show/$1");
 
 /*
  * --------------------------------------------------------------------
