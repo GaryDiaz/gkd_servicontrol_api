@@ -16,8 +16,7 @@ class AccesoFilter implements FilterInterface {
    */
   public function before(RequestInterface $request, $arguments = null) {
     try {
-      $headers = apache_request_headers();
-      $token = $headers["token"];
+      $token = $this->getToken();
       $payload = AccesoBean::decodificarToken($token);
       $usuario = AccesoBean::validarToken($payload);
       $_REQUEST["usuario"] = $usuario;
@@ -27,6 +26,15 @@ class AccesoFilter implements FilterInterface {
       $response->setJSON(["message" => $exc->getMessage()]);
       $response->setStatusCode(401);
       return $response;
+    }
+  }
+
+  private function getToken(string $key = "token"): string {
+    $headers = apache_request_headers();
+    if (array_key_exists($key, $headers)) {
+      return $headers[$key];
+    } else {
+      return new Exception("No posee un token, debe iniciar sesión");
     }
   }
 

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Entities\EmpleadoEntity;
+use App\Entities\ClienteEntity;
 use CodeIgniter\Model;
 
 class ClienteModel extends Model {
@@ -11,14 +11,14 @@ class ClienteModel extends Model {
   protected $primaryKey       = 'idCliente';
   protected $useAutoIncrement = false;
   protected $insertID         = 0;
-  protected $returnType       = EmpleadoEntity::class;
+  protected $returnType       = ClienteEntity::class;
   protected $useSoftDeletes   = false;
   protected $protectFields    = true;
   protected $allowedFields    = [
     "idCliente",
     "rif",
     "juridica",
-    "nombreCompania",
+    "razonSocial",
     "nombreContacto",
     "cargoContacto",
     "direccion",
@@ -35,7 +35,7 @@ class ClienteModel extends Model {
     "idCliente" => "required|is_natural|is_unique[cliente.idCliente]",
     "rif" => "max_length[10]",
     "juridica" => "required|is_natural",
-    "nombreCompania" => "required|max_length[45]",
+    "razonSocial" => "required|max_length[45]",
     "nombreContacto" => "max_length[45]",
     "cargoContacto" => "max_length[20]",
     "direccion" => "required|max_length[255]",
@@ -43,7 +43,7 @@ class ClienteModel extends Model {
     "puntoReferencia" => "max_length[255]",
     "telefono" => "required|max_length[15]",
     "otroTelefono" => "max_length[15]",
-    "email" => "valid_email|max_length[80]",
+    "email" => "max_length[80]",
     "estatus" => "required|is_natural",
   ];
   protected $validationMessages   = [
@@ -59,9 +59,9 @@ class ClienteModel extends Model {
       "required" => "Debe contener un valo válido",
       "is_natural" => "Debe ser un número natural",
     ],
-    "nombreCompania" => [
-      "required" => "El nombre es un campo obligatorio",
-      "max_length" => "El nombre no puede tener más de 45 caracteres",
+    "razonSocial" => [
+      "required" => "El nombre o Razón Social es un campo obligatorio",
+      "max_length" => "El nombre o Razón Social no puede tener más de 45 caracteres",
     ],
     "nombreContacto" => [
       "max_length" => "El nombre de contacto no puede tener más de 45 caracteres",
@@ -87,7 +87,6 @@ class ClienteModel extends Model {
       "max_length" => "Máximo de caracteres (255)",
     ],
     "email" => [
-      "valid_email" => "De escribir un email válido",
       "max_length" => "Máximo de caracteres (80)",
     ],
     "estatus" => [

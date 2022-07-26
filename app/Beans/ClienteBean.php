@@ -139,7 +139,7 @@ class ClienteBean {
   public function setRif(string $rif) {
     $this->prefijoRif = substr($rif, 0, 1);
     $this->numeroRif = substr($rif, 1, 10);
-    $this->juridica = ($this->prefijoRif === "J" || $this->prefijo === "G");
+    $this->juridica = ($this->prefijoRif === "J" || $this->prefijoRif === "G");
   }
 
   /**
@@ -387,8 +387,8 @@ class ClienteBean {
   public function setClienteEntity(ClienteEntity $cliente) {
     $this->setId($cliente->id);
     $this->setRif($cliente->rif);
-    $this->setRazonSocial($cliente->getRazonSocial);
-    $this->setNombreContacto($cliente->getNombreContacto);
+    $this->setRazonSocial($cliente->razonSocial);
+    $this->setNombreContacto($cliente->nombreContacto);
     $this->setCargoContacto($cliente->cargoContacto);
     $this->setDireccion($cliente->direccion);
     $this->setDireccionAnexo($cliente->direccionAnexo);
@@ -464,7 +464,8 @@ class ClienteBean {
   public static function getInstanceCreateForm(array $form): ClienteBean {
     $cb = new ClienteBean();
     $cb->setId(0);
-    $cb->setRif($form["rif"]);
+    $cb->setNumeroRif($form["numeroRif"]);
+    $cb->setPrefijoRif($form["prefijoRif"]);
     $cb->setRazonSocial($form["razonSocial"]);
     $cb->setNombreContacto($form["nombreContacto"]);
     $cb->setCargoContacto($form["cargoContacto"]);

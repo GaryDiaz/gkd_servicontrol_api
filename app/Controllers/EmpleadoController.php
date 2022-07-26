@@ -61,7 +61,7 @@ class EmpleadoController extends ResourceController {
     }
 
     return $this->respondUpdated([
-      "message" => "Datos de usuario actualizados con éxito",
+      "message" => "Datos de empleado actualizados con éxito",
       "data" => new EmpleadoBean($this->model->find($id))
     ]);
   }

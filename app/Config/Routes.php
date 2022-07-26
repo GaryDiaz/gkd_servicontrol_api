@@ -44,11 +44,11 @@ $routes->group("", ['filter' => 'accesoFilter'], static function ($routes) {
   $routes->put("/empleado/(:segment)", "EmpleadoController::update/$1");
   $routes->delete("/empleado/(:segment)", "EmpleadoController::delete/$1");
 
-  $routes->post("/cliente", "EmpleadoController::create");
-  $routes->get("/clientes", "EmpleadoController::index");
-  $routes->get("/cliente/(:segment)", "EmpleadoController::show/$1");
-  $routes->put("/cliente/(:segment)", "EmpleadoController::update/$1");
-  $routes->delete("/cliente/(:segment)", "EmpleadoController::delete/$1");
+  $routes->post("/cliente", "ClienteController::create");
+  $routes->get("/clientes", "ClienteController::index");
+  $routes->get("/cliente/(:segment)", "ClienteController::show/$1");
+  $routes->put("/cliente/(:segment)", "ClienteController::update/$1");
+  $routes->delete("/cliente/(:segment)", "ClienteController::delete/$1");
 });
 
 /*
