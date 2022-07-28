@@ -67,7 +67,7 @@ class ClienteController extends ResourceController {
 
   public function delete($id = null) {
     if (!$this->model->find($id)) {
-      return $this->failNotFound("El empleado que intenta eliminar no existe");
+      return $this->failNotFound("El cliente que intenta eliminar no existe");
     }
 
     $this->model->delete($id);

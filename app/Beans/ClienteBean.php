@@ -248,7 +248,6 @@ class ClienteBean {
    */
   public function setDireccionAnexo(string $direccionAnexo) {
     $this->direccionAnexo = $direccionAnexo;
-
     return $this;
   }
 
