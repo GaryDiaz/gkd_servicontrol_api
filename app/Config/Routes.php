@@ -49,6 +49,12 @@ $routes->group("", ['filter' => 'accesoFilter'], static function ($routes) {
   $routes->get("/cliente/(:segment)", "ClienteController::show/$1");
   $routes->put("/cliente/(:segment)", "ClienteController::update/$1");
   $routes->delete("/cliente/(:segment)", "ClienteController::delete/$1");
+
+  $routes->post("/servicio", "ServicioController::create");
+  $routes->get("/servicios", "ServicioController::index");
+  $routes->get("/servicio/(:segment)", "ServicioController::show/$1");
+  $routes->put("/servicio/(:segment)", "ServicioController::update/$1");
+  $routes->delete("/servicio/(:segment)", "ServicioController::delete/$1");
 });
 
 /*

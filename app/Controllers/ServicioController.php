@@ -41,7 +41,7 @@ class ServicioController extends ResourceController {
         ],
       ]);
     }
-    return $this->failNotFound("No se encontraron servicios");
+    return $this->failNotFound("No se encontró ningún servicio con id $id");
   }
 
   public function create() {

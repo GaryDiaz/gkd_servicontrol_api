@@ -32,8 +32,6 @@ class ServicioModel extends Model {
     "idServicio" => "required|is_natural|is_unique[servicio.idServicio]",
     "fechaServicio" => "required|valid_date",
     "fechaVisita" => "required|valid_date",
-    "fechaFinServicio" => "",
-    "fechaProximaVisita" => "",
     "observaciones" => "max_length[255]",
     "estatus" => "required|is_natural",
     "idUsuario" => "required|is_natural|is_not_unique[usuario.idUsuario]",

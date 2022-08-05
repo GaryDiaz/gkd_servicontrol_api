@@ -259,12 +259,14 @@ class ServicioBean {
   }
 
   public function getServicioEntity(): ServicioEntity {
+    $fechaFinServicio = $this->getFechaFinServicio() !== "" ? $this->getFechaFinServicio() : null;
+    $fechaProximaVisita = $this->getFechaProximaVisita() !== "" ? $this->getFechaProximaVisita() : null;
     $se = new ServicioEntity(array(
       "idServicio" => $this->getId(),
       "fechaServicio" => $this->getFechaServicio(),
       "fechaVisita" => $this->getFechaVisita(),
-      "fechaFinServicio" => $this->getFechaFinServicio(),
-      "fechaProximaVisita" => $this->getFechaProximaVisita(),
+      "fechaFinServicio" => $fechaFinServicio,
+      "fechaProximaVisita" => $fechaProximaVisita,
       "observaciones" => $this->getObservaciones(),
       "estatus" => $this->getEstatusInt(),
       "idUsuario" => $this->getIdUsuario(),
@@ -278,8 +280,10 @@ class ServicioBean {
     $this->setId($servicio->id);
     $this->setFechaServicio($servicio->fechaServicio);
     $this->setFechaVisita($servicio->fechaVisita);
-    $this->setFechaFinServicio($servicio->fechaFinServicio);
-    $this->setFechaProximaVisita($servicio->fechaProximaVisita);
+    $fechaFinServicio = $servicio->fechaFinServicio !== null ? $servicio->fechaFinServicio : "";
+    $this->setFechaFinServicio($fechaFinServicio);
+    $fechaProximaVisita = $servicio->fechaProximaVisita !== null ? $servicio->fechaProximaVisita : "";
+    $this->setFechaProximaVisita($fechaProximaVisita);
     $this->setObservaciones($servicio->observaciones);
     $this->setEstatusInt($servicio->estatus);
     $this->setIdUsuario($servicio->idUsuario);
@@ -315,10 +319,10 @@ class ServicioBean {
       $data["fechaVisita"] = $fechaVisita;
     }
     if ($fechaFinServicio !== null) {
-      $data["fechaFinServicio"] = $fechaFinServicio;
+      $data["fechaFinServicio"] = $fechaFinServicio !== "" ? $fechaFinServicio : null;
     }
     if ($fechaProximaVisita !== null) {
-      $data["fechaProximaVisita"] = $fechaProximaVisita;
+      $data["fechaProximaVisita"] = $fechaProximaVisita !== "" ? $fechaProximaVisita : null;
     }
     if ($observaciones !== null) {
       $data["observaciones"] = $observaciones;
@@ -343,8 +347,10 @@ class ServicioBean {
     $sb->setId(0);
     $sb->setFechaServicio($form["fechaServicio"]);
     $sb->setFechaVisita($form["fechaVisita"]);
-    $sb->setFechaFinServicio($form["fechaFinServicio"]);
-    $sb->setFechaProximaVisita($form["fechaProximaVisita"]);
+    $fechaFinServicio = $form["fechaFinServicio"];
+    $sb->setFechaFinServicio($fechaFinServicio);
+    $fechaProximaVisita = $form["fechaProximaVisita"];
+    $sb->setFechaProximaVisita($fechaProximaVisita);
     $sb->setObservaciones($form["observaciones"]);
     $sb->setEstatusInt(0);
     $sb->setIdUsuario($form["idUsuario"]);
