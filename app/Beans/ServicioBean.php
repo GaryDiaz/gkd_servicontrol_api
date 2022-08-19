@@ -3,6 +3,7 @@
 namespace App\Beans;
 
 use App\Entities\ServicioEntity;
+use App\Traits\ArrayTrait;
 
 class ServicioBean {
   const ESTATUS = [
@@ -302,44 +303,8 @@ class ServicioBean {
   }
 
   public static function extraerDatosActualizables(array $form): array {
-    $data = [];
-    $fechaServicio = array_key_exists("fechaServicio", $form) ? $form["fechaServicio"] : null;
-    $fechaVisita = array_key_exists("fechaVisita", $form) ? $form["fechaVisita"] : null;
-    $fechaFinServicio = array_key_exists("fechaFinServicio", $form) ? $form["fechaFinServicio"] : null;
-    $fechaProximaVisita = array_key_exists("fechaProximaVisita", $form) ? $form["fechaProximaVisita"] : null;
-    $observaciones = array_key_exists("observaciones", $form) ? $form["observaciones"] : null;
-    $estatus = array_key_exists("estatus", $form) ? $form["estatus"] : null;
-    $idUsuario = array_key_exists("idUsuario", $form) ? $form["idUsuario"] : null;
-    $idEmpleado = array_key_exists("idEmpleado", $form) ? $form["idEmpleado"] : null;
-    $idCliente = array_key_exists("idCliente", $form) ? $form["idCliente"] : null;
-    if ($fechaServicio !== null) {
-      $data["fechaServicio"] = $fechaServicio;
-    }
-    if ($fechaVisita !== null) {
-      $data["fechaVisita"] = $fechaVisita;
-    }
-    if ($fechaFinServicio !== null) {
-      $data["fechaFinServicio"] = $fechaFinServicio !== "" ? $fechaFinServicio : null;
-    }
-    if ($fechaProximaVisita !== null) {
-      $data["fechaProximaVisita"] = $fechaProximaVisita !== "" ? $fechaProximaVisita : null;
-    }
-    if ($observaciones !== null) {
-      $data["observaciones"] = $observaciones;
-    }
-    if ($estatus !== null) {
-      $data["estatus"] = $estatus;
-    }
-    if ($idUsuario !== null) {
-      $data["idUsuario"] = $idUsuario;
-    }
-    if ($idEmpleado !== null) {
-      $data["idEmpleado"] = $idEmpleado;
-    }
-    if ($idCliente !== null) {
-      $data["idCliente"] = $idCliente;
-    }
-    return $data;
+    $keys = ["fechaServicio", "fechaVisita", "fechaFinServicio", "fechaProximaVisita", "observaciones", "estatus", "idUsuartio", "idEmpleado", "idCliente"];
+    return ArrayTrait::filtrarCampos($keys, $form);
   }
 
   public static function getInstanceCreateForm(array $form): ServicioBean {

@@ -3,6 +3,7 @@
 namespace App\Beans;
 
 use App\Entities\EmpleadoEntity;
+use App\Traits\ArrayTrait;
 
 class EmpleadoBean {
   const ESTATUS = ["Inactivo", "Activo"];
@@ -285,34 +286,8 @@ class EmpleadoBean {
   }
 
   public static function extraerDatosActualizables(array $form): array {
-    $data = [];
-    $nombre = array_key_exists("nombre", $form) ? $form["nombre"] : null;
-    $apellido = array_key_exists("apellido", $form) ? $form["apellido"] : null;
-    $cargo = array_key_exists("cargo", $form) ? $form["cargo"] : null;
-    $telefonoPrincipal = array_key_exists("telefonoPrincipal", $form)
-      ? $form["telefonoPrincipal"]
-      : null;
-    $telefono2 = array_key_exists("telefono2", $form) ? $form["telefono2"] : null;
-    $telefono3 = array_key_exists("telefono3", $form) ? $form["telefono3"] : null;
-    if ($nombre !== null) {
-      $data["nombre"] = $nombre;
-    }
-    if ($apellido !== null) {
-      $data["apellido"] = $apellido;
-    }
-    if ($cargo !== null) {
-      $data["cargo"] = $cargo;
-    }
-    if ($telefonoPrincipal !== null) {
-      $data["telefonoPrincipal"] = $telefonoPrincipal;
-    }
-    if ($telefono2 !== null) {
-      $data["telefono2"] = $telefono2;
-    }
-    if ($telefono3 !== null) {
-      $data["telefono3"] = $telefono3;
-    }
-    return $data;
+    $keys = ["nombre", "apellido", "cargo", "telefonoPrincipal", "telefono2", "telefono3"];
+    return ArrayTrait::filtrarCampos($keys, $form);
   }
 
   public static function getInstanceCreateForm(array $form): EmpleadoBean {

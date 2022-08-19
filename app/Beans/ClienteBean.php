@@ -3,6 +3,7 @@
 namespace App\Beans;
 
 use App\Entities\ClienteEntity;
+use App\Traits\ArrayTrait;
 
 class ClienteBean {
   const PREFIJOS_RIF = ["V", "E", "P", "J", "G"];
@@ -409,53 +410,18 @@ class ClienteBean {
   }
 
   public static function extraerDatosActualizables(array $form): array {
-    $data = [];
+    $keys = ["razonSocial", "nombreContacto", "cargoContacto", "direccion", "direccionAnexo", "puntoReferencia", "telefono", "otroTelefono", "email"];
+    $data = ArrayTrait::filtrarCampos($keys, $form);
+
     $numeroRif = array_key_exists("numeroRif", $form) ? $form["numeroRif"] : null;
     $prefijoRif = array_key_exists("prefijoRif", $form) ? $form["prefijoRif"] : null;
     $rif = ($numeroRif && $prefijoRif) ? $numeroRif . $prefijoRif : null;
-    $xj = array_key_exists("juridica", $form) ? $form["juridica"] : null;
-    $juridica = $xj ? 1 : 0;
-    $razonSocial = array_key_exists("razonSocial", $form) ? $form["razonSocial"] : null;
-    $nombreContacto = array_key_exists("nombreContacto", $form) ? $form["nombreContacto"] : null;
-    $cargoContacto = array_key_exists("cargoContacto", $form) ? $form["cargoContacto"] : null;
-    $direccion = array_key_exists("direccion", $form) ? $form["direccion"] : null;
-    $direccionAnexo = array_key_exists("direccionAnexo", $form) ? $form["direccionAnexo"] : null;
-    $puntoReferencia = array_key_exists("puntoReferencia", $form) ? $form["puntoReferencia"] : null;
-    $telefono = array_key_exists("telefono", $form) ? $form["telefono"] : null;
-    $otroTelefono = array_key_exists("otroTelefono", $form) ? $form["otroTelefono"] : null;
-    $email = array_key_exists("email", $form) ? $form["email"] : null;
-    if ($rif !== null) {
+    if ($rif) {
       $data["rif"] = $rif;
     }
-    if ($juridica !== null) {
-      $data["juridica"] = $juridica;
-    }
-    if ($razonSocial !== null) {
-      $data["razonSocial"] = $razonSocial;
-    }
-    if ($nombreContacto !== null) {
-      $data["nombreContacto"] = $nombreContacto;
-    }
-    if ($cargoContacto !== null) {
-      $data["cargoContacto"] = $cargoContacto;
-    }
-    if ($direccion !== null) {
-      $data["direccion"] = $direccion;
-    }
-    if ($direccionAnexo !== null) {
-      $data["direccionAnexo"] = $direccionAnexo;
-    }
-    if ($puntoReferencia !== null) {
-      $data["puntoReferencia"] = $puntoReferencia;
-    }
-    if ($telefono !== null) {
-      $data["telefono"] = $telefono;
-    }
-    if ($otroTelefono !== null) {
-      $data["otroTelefono"] = $otroTelefono;
-    }
-    if ($email !== null) {
-      $data["email"] = $email;
+
+    if (array_key_exists("juridica", $form)) {
+      $data["juridica"] = $form["juridica"] ? 1 : 0;
     }
     return $data;
   }
