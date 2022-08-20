@@ -24,7 +24,7 @@ class DetalleServicioBean {
    */
   public $item;
   /**
-   * @var int
+   * @var string
    */
   public $fecha;
   /**
@@ -61,9 +61,10 @@ class DetalleServicioBean {
   public $estatus;
 
   public function __construct(?DetalleServicioEntity $dse = null) {
+    if ($dse !== null) {
+      $this->setDetalleServicioEntity($dse);
+    }
   }
-
-
 
   /**
    * @return int
@@ -73,7 +74,7 @@ class DetalleServicioBean {
   }
 
   /**
-   * @param  int  $idServicio  
+   * @param  int  $idServicio
    */
   public function setIdServicio(int $idServicio) {
     $this->idServicio = $idServicio;
@@ -87,23 +88,23 @@ class DetalleServicioBean {
   }
 
   /**
-   * @param  int  $item  
+   * @param  int  $item
    */
   public function setItem(int $item) {
     $this->item = $item;
   }
 
   /**
-   * @return int
+   * @return string
    */
   public function getFecha() {
     return $this->fecha;
   }
 
   /**
-   * @param  int  $fecha  
+   * @param  string  $fecha
    */
-  public function setFecha(int $fecha) {
+  public function setFecha(string $fecha) {
     $this->fecha = $fecha;
   }
 
@@ -115,7 +116,7 @@ class DetalleServicioBean {
   }
 
   /**
-   * @param  string  $artefacto  
+   * @param  string  $artefacto
    */
   public function setArtefacto(string $artefacto) {
     $this->artefacto = $artefacto;
@@ -129,7 +130,7 @@ class DetalleServicioBean {
   }
 
   /**
-   * @param  int  $cantidad  
+   * @param  int  $cantidad
    */
   public function setCantidad(int $cantidad) {
     $this->cantidad = $cantidad;
@@ -143,7 +144,7 @@ class DetalleServicioBean {
   }
 
   /**
-   * @param  string  $marca  
+   * @param  string  $marca
    */
   public function setMarca(string $marca) {
     $this->marca = $marca;
@@ -157,7 +158,7 @@ class DetalleServicioBean {
   }
 
   /**
-   * @param  string  $descripcion  
+   * @param  string  $descripcion
    */
   public function setDescripcion(string $descripcion) {
     $this->descripcion = $descripcion;
@@ -171,7 +172,7 @@ class DetalleServicioBean {
   }
 
   /**
-   * @param  string  $falla  
+   * @param  string  $falla
    */
   public function setFalla(string $falla) {
     $this->falla = $falla;
@@ -185,7 +186,7 @@ class DetalleServicioBean {
   }
 
   /**
-   * @param  string  $diagnostico  
+   * @param  string  $diagnostico
    */
   public function setDiagnostico(string $diagnostico) {
     $this->diagnostico = $diagnostico;
@@ -199,7 +200,7 @@ class DetalleServicioBean {
   }
 
   /**
-   * @param  string  $observaciones  
+   * @param  string  $observaciones
    */
   public function setObservaciones(string $observaciones) {
     $this->observaciones = $observaciones;
@@ -228,8 +229,8 @@ class DetalleServicioBean {
    * @param  string|int  $estatus
    */
   public function setEstatus($estatus) {
-    if (is_int($estatus)) {
-      $this->estatus = $estatus >= 0 && $estatus < count(self::ESTATUS)
+    if (is_numeric($estatus)) {
+      $this->estatus = intval($estatus) >= 0 && intval($estatus) < count(self::ESTATUS)
         ? self::ESTATUS[$estatus]
         : self::ESTATUS[0];
     } else {

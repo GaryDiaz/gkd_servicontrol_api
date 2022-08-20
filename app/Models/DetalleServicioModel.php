@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Entities\DetalleServicioEntity;
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Model;
+use ReflectionClass;
+use ReflectionProperty;
 
 class DetalleServicioModel extends Model {
   protected $DBGroup          = 'default';
@@ -94,6 +96,27 @@ class DetalleServicioModel extends Model {
     return $row ? $row["item"] + 1 : 1;
   }
 
+  protected function objectToRawArray($data, bool $onlyChanged = true, bool $recursive = false): ?array {
+    if (method_exists($data, 'toRawArray')) {
+      $properties = $data->toRawArray($onlyChanged, $recursive);
+    } else {
+      $mirror = new ReflectionClass($data);
+      $props  = $mirror->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
+
+      $properties = [];
+
+      // Loop over each property,
+      // saving the name/value in a new array we can return.
+      foreach ($props as $prop) {
+        // Must make protected values accessible.
+        $prop->setAccessible(true);
+        $properties[$prop->getName()] = $prop->getValue($data);
+      }
+    }
+
+    return $properties;
+  }
+
   /**
    * Método sobrescrito para solventar la clave primaria compuesta
    *
@@ -104,7 +127,7 @@ class DetalleServicioModel extends Model {
     $escape       = $this->escape;
     $this->escape = [];
 
-    if (empty($data[$this->primaryKey["idServicio"]]) || empty($data[$this->primaryKey["item"]])) {
+    if (empty($data[$this->primaryKey[0]]) || empty($data[$this->primaryKey[1]])) {
       throw DataException::forEmptyPrimaryKey('insert');
     }
 
@@ -119,7 +142,7 @@ class DetalleServicioModel extends Model {
 
     // If insertion succeeded then save the insert ID
     if ($result) {
-      $this->insertID = $data[$this->primaryKey["idServicio"]] . "-" . $data[$this->primaryKey["item"]];
+      $this->insertID = $data[$this->primaryKey[0]] . "-" . $data[$this->primaryKey[1]];
     }
     return $result;
   }
@@ -152,8 +175,8 @@ class DetalleServicioModel extends Model {
 
     if ($idServicio && $item) {
       $builder = $this->builder();
-      $builder = $builder->whereIn($this->table . '.idServicio', $idServicio)
-        ->whereIn($this->table . '.item', $item);
+      $builder = $builder->where($this->table . '.idServicio', $idServicio)
+        ->where($this->table . '.item', $item);
 
       // Must use the set() method to ensure to set the correct escape flag
       foreach ($data as $key => $val) {
@@ -163,6 +186,38 @@ class DetalleServicioModel extends Model {
     }
 
     return null;
+  }
+
+  protected function doDelete($primaryKey = null, bool $purge = false) {
+    $builder = $this->builder();
+
+    if (empty($primaryKey)) {
+      return false;
+    }
+
+    $result = $builder->where("idServicio", $primaryKey["idServicio"])
+      ->where("item", $primaryKey["item"])->delete();
+
+    return $result;
+  }
+
+  public function delete($primaryKey = null, bool $purge = false) {
+    if (is_array($primaryKey)) {
+      if (!array_key_exists("idServicio", $primaryKey) || !array_key_exists("item", $primaryKey)) {
+        return false;
+      }
+    }
+
+    $idServicio = null;
+    $item = null;
+    if (is_string($primaryKey)) {
+      $arrayPk = explode("-", $primaryKey);
+      $idServicio = intval($arrayPk[0]);
+      $item = intval($arrayPk[1]);
+      $primaryKey = ["idServicio" => $idServicio, "item" => $item];
+    }
+
+    return $this->doDelete($primaryKey, $purge);
   }
 
   /**
@@ -202,6 +257,7 @@ class DetalleServicioModel extends Model {
   /**
    * Metodo anulado, se recomienda usar findByIdServicio($idServicio) para recibir una
    * lista de detalle de servicio relacionado con un mismo servicio
+   * @ignore
    */
   public function findAll(int $limit = 0, int $offset = 0) {
     return [];
@@ -213,8 +269,8 @@ class DetalleServicioModel extends Model {
    * @return array|null
    */
   public function findByIdServicio(int $idServicio) {
-    $builder = $this->builder;
-    $result = $builder->where($this->table . ".idServicio", $idServicio)
+    $builder = $this->db->table($this->table);
+    $result = $builder->where("idServicio", $idServicio)
       ->get()->getResult($this->tempReturnType);
     return $result;
   }
