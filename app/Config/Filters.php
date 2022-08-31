@@ -24,6 +24,7 @@ class Filters extends BaseConfig {
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'accesoFilter'  => AccesoFilter::class,
+        'cors'          => \Fluent\Cors\Filters\CorsFilter::class,
     ];
 
     /**
@@ -69,5 +70,7 @@ class Filters extends BaseConfig {
      *
      * @var array
      */
-    public $filters = [];
+    public $filters = [
+        'cors' => ['after' => ['*']]
+    ];
 }
