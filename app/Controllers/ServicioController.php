@@ -28,7 +28,7 @@ class ServicioController extends ResourceController {
     if ($servicio = $this->model->findView($id)) {
       return $this->respond([
         "data" => [
-          "servicio" => new ServicioBean($servicio),
+          "servicio" => ServicioBean::getInstanceFromView($servicio),
         ],
       ]);
     }
