@@ -2,8 +2,6 @@
 
 namespace Config;
 
-use App\Controllers\UsuarioController;
-
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -25,12 +23,13 @@ $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 
 $routes->get('/', 'Home::index');
-$routes->post("/login", "UsuarioController::login");
+$routes->options(".*", "*", ['filter' => 'cors']);
+$routes->post("login", "UsuarioController::login", ['filter' => 'cors']);
 
 /**
  * Rutas protegidas por el filtro AccesoFilter
  */
-$routes->group("", ['filter' => 'accesoFilter'], static function ($routes) {
+$routes->group("", ['filter' => ['cors', 'accesoFilter']], static function ($routes) {
   $routes->post("/usuario", "UsuarioController::create");
   $routes->get("/usuarios", "UsuarioController::index");
   $routes->get("/usuario/(:segment)", "UsuarioController::show/$1");

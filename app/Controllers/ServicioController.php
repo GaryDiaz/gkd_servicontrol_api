@@ -16,28 +16,19 @@ class ServicioController extends ResourceController {
   protected $format = "json";
 
   public function index() {
-    if ($servicios = $this->model->findAll()) {
+    if ($servicios = $this->model->findAllView()) {
       return $this->respond([
-        "data" => ServicioBean::arrayEntitiesToBeans($servicios)
+        "data" => ServicioBean::arrayViewToBeans($servicios)
       ]);
     }
     return $this->failNotFound("No se encontraron servicios");
   }
 
   public function show($id = null) {
-    if ($servicio = $this->model->find($id)) {
-      $usrModel = new UsuarioModel();
-      $ub = new UsuarioBean($usrModel->find($servicio->idUsuario));
-      $empModel = new EmpleadoModel();
-      $eb = new EmpleadoBean($empModel->find($servicio->idEmpleado));
-      $cliModel = new ClienteModel();
-      $cb = new ClienteBean($cliModel->find($servicio->idCliente));
+    if ($servicio = $this->model->findView($id)) {
       return $this->respond([
         "data" => [
           "servicio" => new ServicioBean($servicio),
-          "usuario" => $ub,
-          "empleado" => $eb,
-          "cliente" => $cb,
         ],
       ]);
     }

@@ -4,85 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af5d49b2d73f03b5d690100ce8b358ad",
+    "content-hash": "d33b4548b72cf1d3430d2df9be7964bf",
     "packages": [
         {
-            "name": "agungsugiarto/codeigniter4-cors",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/agungsugiarto/codeigniter4-cors.git",
-                "reference": "3eae9932e8d68330a5b45a41a6871cc61a97bee3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/agungsugiarto/codeigniter4-cors/zipball/3eae9932e8d68330a5b45a41a6871cc61a97bee3",
-                "reference": "3eae9932e8d68330a5b45a41a6871cc61a97bee3",
-                "shasum": ""
-            },
-            "require": {
-                "codeigniter4/framework": "^4.1",
-                "php": "^7.3 || ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Fluent\\Cors\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Agung Sugiarto",
-                    "email": "me.agungsugiarto@tgmail.com",
-                    "homepage": "https://agungsugiarto.github.io",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Send CORS Headers in a CodeIgniter 4 application.",
-            "keywords": [
-                "ajax",
-                "api",
-                "codeigniter4",
-                "codeigniter4-cors",
-                "cors",
-                "request"
-            ],
-            "support": {
-                "issues": "https://github.com/agungsugiarto/codeigniter4-cors/issues",
-                "source": "https://github.com/agungsugiarto/codeigniter4-cors/tree/v2.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://saweria.co/agungsugiarto",
-                    "type": "custom"
-                }
-            ],
-            "time": "2021-02-19T13:24:21+00:00"
-        },
-        {
             "name": "codeigniter4/framework",
-            "version": "v4.2.5",
+            "version": "v4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeigniter4/framework.git",
-                "reference": "26ebf14a1e52687ec4e214e99da0530de9e4a9a0"
+                "reference": "872c8fb9d70dc1dbd8e4a85a5cf49d4fe2735525"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeigniter4/framework/zipball/26ebf14a1e52687ec4e214e99da0530de9e4a9a0",
-                "reference": "26ebf14a1e52687ec4e214e99da0530de9e4a9a0",
+                "url": "https://api.github.com/repos/codeigniter4/framework/zipball/872c8fb9d70dc1dbd8e4a85a5cf49d4fe2735525",
+                "reference": "872c8fb9d70dc1dbd8e4a85a5cf49d4fe2735525",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +33,7 @@
             "require-dev": {
                 "codeigniter/coding-standard": "^1.1",
                 "fakerphp/faker": "^1.9",
-                "friendsofphp/php-cs-fixer": "3.6.*",
+                "friendsofphp/php-cs-fixer": "~3.11.0",
                 "mikey179/vfsstream": "^1.6",
                 "nexusphp/cs-config": "^3.3",
                 "phpunit/phpunit": "^9.1",
@@ -138,7 +73,7 @@
                 "slack": "https://codeigniterchat.slack.com",
                 "source": "https://github.com/codeigniter4/CodeIgniter4"
             },
-            "time": "2022-08-29T01:43:28+00:00"
+            "time": "2022-09-05T00:16:30+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -630,16 +565,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.14.0",
+            "version": "v4.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1"
+                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/34bea19b6e03d8153165d8f30bba4c3be86184c1",
-                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
+                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
                 "shasum": ""
             },
             "require": {
@@ -680,9 +615,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.14.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.1"
             },
-            "time": "2022-05-31T20:59:12+00:00"
+            "time": "2022-09-04T07:30:47+00:00"
         },
         {
             "name": "phar-io/manifest",

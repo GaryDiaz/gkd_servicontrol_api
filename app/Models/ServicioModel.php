@@ -83,4 +83,14 @@ class ServicioModel extends Model {
       ->limit(1)->get()->getRowArray();
     return $row ? $row["idServicio"] + 1 : 1;
   }
+
+  public function findAllView() {
+    $builder = $this->db->table("servicio_view");
+    return $builder->select()->get()->getResultObject();
+  }
+
+  public function findView(int $id) {
+    $builder = $this->db->table("servicio_view");
+    return $builder->select()->where("idServicio", $id)->get()->getRowObject();
+  }
 }

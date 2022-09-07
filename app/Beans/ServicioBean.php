@@ -4,6 +4,9 @@ namespace App\Beans;
 
 use App\Entities\ServicioEntity;
 use App\Traits\ArrayTrait;
+use App\Beans\ClienteBean;
+use App\Beans\EmpleadoBean;
+use App\Beans\UsuarioBean;
 
 class ServicioBean {
   const ESTATUS = [
@@ -55,6 +58,18 @@ class ServicioBean {
    * @var int
    */
   public $idCliente;
+  /**
+   * @var UsuarioBean | null
+   */
+  public $usuario;
+  /**
+   * @var ClienteBean | null
+   */
+  public $cliente;
+  /**
+   * @var EmpleadoBean | null
+   */
+  public $empleado;
 
   /**
    * Get the value of id
@@ -302,6 +317,16 @@ class ServicioBean {
     return $beans;
   }
 
+  public static function arrayViewToBeans($servicios): array {
+    $beans = [];
+    for ($i = 0; $i < count($servicios); $i++) {
+      $se = $servicios[$i];
+      $sb = self::getInstanceFromView($se);
+      $beans[$i] = $sb;
+    }
+    return $beans;
+  }
+
   public static function extraerDatosActualizables(array $form): array {
     $keys = ["fechaServicio", "fechaVisita", "fechaFinServicio", "fechaProximaVisita", "observaciones", "estatus", "idUsuartio", "idEmpleado", "idCliente"];
     return ArrayTrait::filtrarCampos($keys, $form);
@@ -321,6 +346,59 @@ class ServicioBean {
     $sb->setIdUsuario($form["idUsuario"]);
     $sb->setIdEmpleado($form["idEmpleado"]);
     $sb->setIdCliente($form["idCliente"]);
+    return $sb;
+  }
+
+  public static function getInstanceFromView($servicio): ServicioBean {
+    $sb = new ServicioBean();
+    $sb->setId($servicio->idServicio);
+    $sb->setFechaServicio($servicio->fechaServicio);
+    $sb->setFechaVisita($servicio->fechaVisita);
+    $sb->setFechaFinServicio($servicio->fechaFinServicio !== null ? $servicio->fechaFinServicio : "");
+    $sb->setFechaProximaVisita($servicio->fechaProximaVisita !== null ? $servicio->fechaProximaVisita : "");
+    $sb->setObservaciones($servicio->observaciones);
+    $sb->setEstatusInt($servicio->estatus);
+    $sb->setIdUsuario($servicio->idUsuario);
+    $sb->setIdEmpleado($servicio->idEmpleado);
+    $sb->setIdCliente($servicio->idCliente);
+    //empleado
+    $eb = new EmpleadoBean();
+    $eb->setId($servicio->idEmpleado);
+    $eb->setCedula($servicio->cedulaEmpleado);
+    $eb->setNombre($servicio->nombreEmpleado);
+    $eb->setApellido($servicio->apellidoEmpleado);
+    $eb->setCargo($servicio->cargoEmpleado);
+    $eb->setTelefonoPrincipal($servicio->telefonoPrincipalEmpleado);
+    $eb->setTelefono2($servicio->telefono2Empleado);
+    $eb->setTelefono3($servicio->telefono3Empleado);
+    $eb->setEstatusInt($servicio->estatusEmpleado);
+    $sb->empleado = $eb;
+    //cliente
+    $cb = new ClienteBean();
+    $cb->setId($servicio->idCliente);
+    $cb->setRif($servicio->rifCliente);
+    $cb->setJuridica($servicio->juridicaCliente);
+    $cb->setRazonSocial($servicio->razonSocialCliente);
+    $cb->setNombreContacto($servicio->nombreContactoCliente);
+    $cb->setCargoContacto($servicio->cargoContactoCliente);
+    $cb->setDireccion($servicio->direccionCliente);
+    $cb->setDireccionAnexo($servicio->direccionAnexoCliente);
+    $cb->setPuntoReferencia($servicio->puntoReferenciaCliente);
+    $cb->setTelefono($servicio->telefonoCliente);
+    $cb->setOtroTelefono($servicio->otroTelefonoCliente);
+    $cb->setEmail($servicio->emailCliente);
+    $cb->setEstatusInt($servicio->estatusCliente);
+    $sb->cliente = $cb;
+    //usuario
+    $ub = new UsuarioBean();
+    $ub->setId($servicio->idUsuario);
+    $ub->setNick($servicio->nickUsuario);
+    $ub->setNivel($servicio->nivelUsuario);
+    $ub->setNombre($servicio->nombreUsuario);
+    $ub->setApellido($servicio->apellidoUsuario);
+    $ub->setEstatus($servicio->estatusUsuario);
+    $sb->usuario = $ub;
+
     return $sb;
   }
 }
