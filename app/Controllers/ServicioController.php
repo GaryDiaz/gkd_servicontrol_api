@@ -35,6 +35,19 @@ class ServicioController extends ResourceController {
     return $this->failNotFound("No se encontró ningún servicio con id $id");
   }
 
+  /**public function find($column=null, $valor=null) {
+    if ($servicio = $this->model->findView($id)) {
+      return $this->respond([
+        "data" => [
+          "servicio" => ServicioBean::getInstanceFromView($servicio),
+        ],
+      ]);
+    }
+    return $this->failNotFound("No se encontró ningún servicio con id $id");
+  }*/
+
+
+
   public function create() {
     $form = $this->request->getJSON(true);
     $sb = ServicioBean::getInstanceCreateForm($form);

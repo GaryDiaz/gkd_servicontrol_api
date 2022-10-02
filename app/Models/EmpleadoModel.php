@@ -26,11 +26,10 @@ class EmpleadoModel extends Model {
     'estatus'
   ];
 
-
   // Validation
   protected $validationRules      = [
     'idEmpleado' => 'required|is_natural|is_unique[empleado.idEmpleado]',
-    'cedula' => 'required|is_natural|is_unique[empleado.cedula]',
+    'cedula' => 'required|is_natural|es_clave_unica[empleado.cedula,idEmpleado,{idEmpleado}]',
     'nombre' => 'required|max_length[20]',
     'apellido' => 'required|max_length[20]',
     'cargo' => 'required|max_length[20]',
@@ -48,7 +47,7 @@ class EmpleadoModel extends Model {
     'cedula' => [
       'required' => 'La cédula del empleado es obligatoria',
       'is_natural' => 'La cédula del empleado debe ser un número',
-      'is_unique' => 'La cédula del empleado ya existe',
+      'es_clave_unica' => 'La cédula ya existe',
     ],
     'nombre' => [
       'required' => 'El nombre es obligatorio',
@@ -84,5 +83,22 @@ class EmpleadoModel extends Model {
     $row = $builder->select("idEmpleado")->orderBy("idEmpleado", "DESC")
       ->limit(1)->get()->getRowArray();
     return $row ? $row["idEmpleado"] + 1 : 1;
+  }
+
+  public function findText($column, $value) {
+    $builder = $this->db->table($this->table);
+    return $builder->select()->like($column, $value)->get()->getResult($this->tempReturnType);
+  }
+
+  public function findNumber($value) {
+    $builder = $this->db->table($this->table);
+    return $builder->select()->where("cedula", $value)->get()->getResult($this->tempReturnType);
+  }
+
+  public function findTelefono($value) {
+    $builder = $this->db->table($this->table);
+    $builder->select()->like("telefonoPrincipal", $value);
+    $builder->orLike("telefono2", $value);
+    return $builder->orLike("telefono3", $value)->get()->getResult($this->tempReturnType);
   }
 }

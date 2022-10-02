@@ -23,7 +23,10 @@ class AccesoFilter implements FilterInterface {
     } catch (Exception $exc) {
       $response = service("response");
       $response->setContentType("application/json");
-      $response->setJSON(["message" => $exc->getMessage()]);
+      $response->setJSON([
+        "error" => 401,
+        "messages" => ["error" => $exc->getMessage()]
+      ]);
       $response->setStatusCode(401);
       return $response;
     }

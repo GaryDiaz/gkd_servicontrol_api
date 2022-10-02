@@ -8,6 +8,13 @@ use CodeIgniter\RESTful\ResourceController;
 class EmpleadoController extends ResourceController {
   protected $modelName = "App\Models\EmpleadoModel";
   protected $format = "json";
+  const COLUMNAS_BUSCAR = [
+    "nombre" => true,
+    "apellido" => true,
+    "cargo" => true,
+    "cedula" => true,
+    "telefono" => true,
+  ];
 
   public function index() {
     if ($empleados = $this->model->findAll()) {
@@ -25,6 +32,28 @@ class EmpleadoController extends ResourceController {
       ]);
     }
     return $this->failNotFound("No se encontró ningún empleado con id $id");
+  }
+
+  public function findText($column = null, $valor = null) {
+    if (!$column || !$valor) {
+      return $this->failNotFound("Nada que buscar");
+    }
+    if (!key_exists($column, self::COLUMNAS_BUSCAR)) {
+      return $this->failNotFound("No se encontro la columna $column");
+    }
+
+    if ($column === "cedula") {
+      $empleados = $this->model->findNumber($valor);
+    } else if ($column === "telefono") {
+      $empleados = $this->model->findTelefono($valor);
+    } else {
+      $empleados = $this->model->findText($column, $valor);
+    }
+
+    if (!$empleados) {
+      return $this->failNotFound("No se encontro ningún empleado con $column: $valor");
+    }
+    return $this->respond(["data" => EmpleadoBean::arrayEntitiesToBeans($empleados)]);
   }
 
   public function create() {

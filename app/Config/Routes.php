@@ -40,6 +40,7 @@ $routes->group("", ['filter' => ['cors', 'accesoFilter']], static function ($rou
   $routes->post("/empleado", "EmpleadoController::create");
   $routes->get("/empleados", "EmpleadoController::index");
   $routes->get("/empleado/(:segment)", "EmpleadoController::show/$1");
+  $routes->get("/empleados/(:segment)/(:segment)", "EmpleadoController::findText/$1/$2");
   $routes->put("/empleado/(:segment)", "EmpleadoController::update/$1");
   $routes->delete("/empleado/(:segment)", "EmpleadoController::delete/$1");
 

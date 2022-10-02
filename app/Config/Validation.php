@@ -2,14 +2,14 @@
 
 namespace Config;
 
+use App\Validation\GKDValidation;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Validation\CreditCardRules;
 use CodeIgniter\Validation\FileRules;
 use CodeIgniter\Validation\FormatRules;
 use CodeIgniter\Validation\Rules;
 
-class Validation extends BaseConfig
-{
+class Validation extends BaseConfig {
     //--------------------------------------------------------------------
     // Setup
     //--------------------------------------------------------------------
@@ -22,6 +22,7 @@ class Validation extends BaseConfig
      */
     public $ruleSets = [
         Rules::class,
+        GKDValidation::class,
         FormatRules::class,
         FileRules::class,
         CreditCardRules::class,
